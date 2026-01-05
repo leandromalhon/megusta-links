@@ -1,0 +1,234 @@
+:root {
+  --bg: #0b0f1a;
+  --card: #141a2b;
+  --primary: #ff7a00;
+  --text: #ffffff;
+  --muted: #9ca3af;
+}
+
+/* RESET */
+* {
+  box-sizing: border-box;
+}
+
+/* BODY */
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  display: flex;
+  justify-content: center;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* FUNDO MG – DRIFT + PARALLAX */
+body::before {
+  content: "";
+  position: fixed;
+  top: 12%;
+  left: 8%;
+  width: 220px;
+  height: 220px;
+  background: url("assets/mg-watermark.svg") no-repeat center;
+  background-size: contain;
+  opacity: 0.05;
+  z-index: 0;
+  pointer-events: none;
+  transform: translateY(var(--parallax-offset, 0));
+  animation: driftMG 55s linear infinite alternate;
+}
+
+/* CONTAINER */
+.container {
+  width: 100%;
+  max-width: 420px;
+  padding: 32px 20px;
+  text-align: center;
+  position: relative;
+  z-index: 2;
+}
+
+/* HEADER */
+.logo {
+  width: 110px;
+  margin-bottom: 16px;
+}
+
+h1 {
+  font-size: 1.6rem;
+  margin: 0;
+}
+
+p {
+  color: var(--muted);
+  margin: 8px 0 24px;
+}
+
+/* CTA */
+.cta {
+  display: block;
+  background: var(--primary);
+  color: #ffffff;
+  text-decoration: none;
+  padding: 16px;
+  border-radius: 14px;
+  font-weight: 700;
+  margin-bottom: 28px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.cta:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 15px 40px rgba(255, 122, 0, 0.45);
+}
+
+/* LINKS */
+.links {
+  display: grid;
+  gap: 14px;
+}
+
+.card {
+  background: var(--card);
+  padding: 14px;
+  border-radius: 12px;
+  text-decoration: none;
+  color: #ffffff;
+  font-weight: 500;
+  transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.card:hover {
+  background: #1f2640;
+  transform: translateY(-2px);
+}
+
+/* ───────── PROVA SOCIAL (CORRIGIDA) ───────── */
+.social-proof {
+  margin-top: 40px;
+}
+
+.social-proof h2 {
+  font-size: 1rem;
+  margin-bottom: 14px;
+}
+
+/* PISTA DO CARROSSEL */
+.logos {
+  width: 100%;
+  height: 60px;            /* FUNDAMENTAL */
+  overflow: hidden;
+  position: relative;
+}
+
+/* ESTEIRA */
+.logos-track {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  width: max-content;
+  animation: scroll 22s linear infinite;
+}
+
+/* LOGOS */
+.logos img {
+  height: 42px;
+  opacity: 0.85;
+  flex-shrink: 0;
+  filter: brightness(0) invert(1); /* remove se seus logos forem coloridos */
+}
+
+/* TEXTO AUXILIAR */
+.meta {
+  display: block;
+  margin-top: 12px;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+/* FOOTER */
+footer {
+  margin-top: 40px;
+  font-size: 0.75rem;
+  opacity: 0.4;
+}
+
+/* LOADER */
+.loader {
+  position: fixed;
+  inset: 0;
+  background: #0b0f1a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  animation: loaderFade 1.4s ease forwards;
+  animation-delay: 1.2s;
+}
+
+.loader img {
+  width: 120px;
+  animation: loaderPulse 1.2s ease-in-out infinite;
+}
+
+/* ANIMAÇÕES */
+.fade {
+  animation: fadeIn 0.8s ease forwards;
+}
+
+.pulse {
+  animation: pulse 2s infinite;
+}
+
+/* KEYFRAMES */
+@keyframes driftMG {
+  0% { transform: translate(0, 0); }
+  25% { transform: translate(18vw, 8vh); }
+  50% { transform: translate(32vw, 22vh); }
+  75% { transform: translate(14vw, 38vh); }
+  100% { transform: translate(38vw, 14vh); }
+}
+
+@keyframes scroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 0 rgba(255,122,0,0.6); }
+  70% { box-shadow: 0 0 0 18px rgba(255,122,0,0); }
+  100% { box-shadow: 0 0 0 0 rgba(255,122,0,0); }
+}
+
+@keyframes loaderPulse {
+  0% { transform: scale(1); opacity: 0.6; }
+  50% { transform: scale(1.06); opacity: 1; }
+  100% { transform: scale(1); opacity: 0.6; }
+}
+
+@keyframes loaderFade {
+  to { opacity: 0; pointer-events: none; }
+}
+
+@keyframes fadeIn {
+  to { opacity: 1; transform: none; }
+}
+
+/* MOBILE */
+@media (max-width: 480px) {
+  body::before {
+    width: 160px;
+    height: 160px;
+    opacity: 0.04;
+  }
+
+  .logos {
+    height: 52px;
+  }
+
+  .logos img {
+    height: 36px;
+  }
+}

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Me Gusta Propaganda | Links Oficiais</title>
+
+  <meta name="description" content="Agência Me Gusta Propaganda. Branding, marketing digital, mídia e criação. Pelotas Parque Tecnológico." />
+  <meta name="robots" content="index, follow" />
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+  <!-- LOADER -->
+  <div class="loader">
+    <img src="assets/logo.png" alt="Me Gusta Propaganda">
+  </div>
+
+  <main class="container fade">
+
+    <!-- LOGO -->
+    <img src="assets/logo.png" alt="Me Gusta Propaganda" class="logo" />
+
+    <h1>Me Gusta Propaganda</h1>
+    <p>Branding • Marketing • Criação • Mídia</p>
+
+    <!-- CTA PRINCIPAL -->
+    <a
+      href="https://wa.me/5553999999999"
+      class="cta pulse"
+      target="_blank"
+    >
+      Fale com a Me Gusta no WhatsApp
+    </a>
+
+    <!-- LINKS -->
+    <div class="links">
+
+      <a
+        href="https://www.megusta.com.br"
+        class="card"
+        target="_blank"
+      >
+        🌐 Site Oficial
+      </a>
+
+      <a
+        href="https://www.instagram.com/megustapropaganda"
+        class="card"
+        target="_blank"
+      >
+        📸 Instagram
+      </a>
+
+      <a
+        href="https://maps.google.com/?q=Pelotas+Parque+Tecnológico"
+        class="card"
+        target="_blank"
+      >
+        📍 Pelotas Parque Tecnológico
+      </a>
+
+    </div>
+
+    <!-- PROVA SOCIAL (EXEMPLO) -->
+    <section class="social-proof">
+      <h2>Marcas que ajudamos a construir</h2>
+
+      <div class="logos">
+        <div class="logos-track">
+          <img src="assets/clientes/cliente1.png" alt="">
+          <img src="assets/clientes/cliente2.png" alt="">
+          <img src="assets/clientes/cliente3.png" alt="">
+           <img src="assets/clientes/cliente1.png" alt="">
+          <img src="assets/clientes/cliente2.png" alt="">
+          <img src="assets/clientes/cliente3.png" alt="">
+           <img src="assets/clientes/cliente1.png" alt="">
+          <img src="assets/clientes/cliente2.png" alt="">
+          <img src="assets/clientes/cliente3.png" alt="">
+        </div>
+      </div>
+
+      <span class="meta">+10 anos fazendo parte de grandes histórias.</span>
+    </section>
+
+    <footer>
+      © Me Gusta Propaganda
+    </footer>
+
+  </main>
+
+  <!-- PARALLAX -->
+  <script>
+    document.addEventListener("scroll", () => {
+      const scrolled = window.scrollY;
+      document.body.style.setProperty(
+        "--parallax-offset",
+        `${scrolled * 0.04}px`
+      );
+    });
+  </script>
+
+</body>
+</html>
