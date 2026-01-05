@@ -97,23 +97,12 @@ p {
   text-decoration: none;
   color: #ffffff;
   font-weight: 500;
-  display: flex;
-  align-items: center;
-  gap: 12px;
   transition: background 0.3s ease, transform 0.3s ease;
 }
 
 .card:hover {
   background: #1f2640;
   transform: translateY(-2px);
-}
-
-/* ÍCONES DOS LINKS */
-.card .icon {
-  width: 22px;
-  height: 22px;
-  object-fit: contain;
-  flex-shrink: 0;
 }
 
 /* ───────── PROVA SOCIAL ───────── */
@@ -129,7 +118,7 @@ p {
 /* PISTA DO CARROSSEL */
 .logos {
   width: 100%;
-  height: 70px; /* ajustado para suportar scale */
+  height: 60px;
   overflow: hidden;
   position: relative;
 }
@@ -140,17 +129,21 @@ p {
   align-items: center;
   gap: 32px;
   width: max-content;
-  animation: scroll 35s linear infinite;
+  animation: scroll 30s linear infinite;
 }
 
-/* LOGOS (AJUSTE PARA PNG COM TRANSPARÊNCIA GRANDE) */
+/* LOGOS — AJUSTE DEFINITIVO */
 .logos img {
   height: 42px;
-  transform: scale(1.6);
-  transform-origin: center;
+  min-width: clamp(72px, 8vw, 96px);
+  object-fit: contain;
   opacity: 0.85;
   flex-shrink: 0;
-  filter: brightness(0) invert(1);
+}
+
+/* PAUSE NO HOVER */
+.logos:hover .logos-track {
+  animation-play-state: paused;
 }
 
 /* TEXTO AUXILIAR */
@@ -186,7 +179,7 @@ footer {
   animation: loaderPulse 1.2s ease-in-out infinite;
 }
 
-/* ANIMAÇÕES AUX */
+/* ANIMAÇÕES */
 .fade {
   animation: fadeIn 0.8s ease forwards;
 }
@@ -238,11 +231,11 @@ footer {
   }
 
   .logos {
-    height: 60px;
+    height: 52px;
   }
 
   .logos img {
     height: 36px;
-    transform: scale(1.5);
+    min-width: 64px;
   }
 }
