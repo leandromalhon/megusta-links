@@ -29,21 +29,21 @@ body::before {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 250px;
-  height: 250px;
+  width: 180px; /* REDUZIDO: 250px → 180px */
+  height: 180px; /* REDUZIDO: 250px → 180px */
   background: url("assets/mg-watermark.svg") no-repeat center;
   background-size: contain;
-  opacity: 0.05;
+  opacity: 0.04; /* REDUZIDO: 0.05 → 0.04 (mais sutil) */
   z-index: 0;
   pointer-events: none;
   animation: driftMG 80s linear infinite;
-  filter: blur(0.3px);
+  filter: blur(0.5px); /* AUMENTADO: mais desfoque */
 }
 
 .container {
   width: 100%;
-  max-width: 420px;
-  padding: 32px 20px;
+  max-width: 400px; /* REDUZIDO: 420px → 400px */
+  padding: 24px 16px; /* REDUZIDO: 32px 20px → 24px 16px */
   text-align: center;
   position: relative;
   z-index: 2;
@@ -54,8 +54,8 @@ body::before {
 }
 
 .logo {
-  width: 110px;
-  margin-bottom: 16px;
+  width: 90px; /* REDUZIDO: 110px → 90px */
+  margin-bottom: 12px; /* REDUZIDO: 16px → 12px */
   opacity: 0;
   transform: scale(0.9);
   animation: fadeInScale 0.8s ease forwards;
@@ -63,7 +63,7 @@ body::before {
 }
 
 h1 {
-  font-size: 1.6rem;
+  font-size: 1.4rem; /* REDUZIDO: 1.6rem → 1.4rem */
   margin: 0;
   opacity: 0;
   transform: translateY(10px);
@@ -73,7 +73,8 @@ h1 {
 
 p {
   color: var(--muted);
-  margin: 8px 0 24px;
+  margin: 6px 0 20px; /* REDUZIDO: 8px 0 24px → 6px 0 20px */
+  font-size: 0.9rem; /* REDUZIDO: tamanho padrão → 0.9rem */
   opacity: 0;
   transform: translateY(10px);
   animation: fadeInUp 0.8s ease forwards;
@@ -85,10 +86,11 @@ p {
   background: var(--primary);
   color: #ffffff;
   text-decoration: none;
-  padding: 16px;
-  border-radius: 14px;
-  font-weight: 700;
-  margin-bottom: 28px;
+  padding: 14px; /* REDUZIDO: 16px → 14px */
+  border-radius: 12px; /* REDUZIDO: 14px → 12px */
+  font-weight: 600; /* REDUZIDO: 700 → 600 */
+  margin-bottom: 24px; /* REDUZIDO: 28px → 24px */
+  font-size: 0.95rem; /* NOVO: controlar tamanho do texto */
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   opacity: 0;
   transform: translateY(10px);
@@ -100,13 +102,13 @@ p {
 }
 
 .cta:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 15px 40px rgba(255, 122, 0, 0.45);
+  transform: translateY(-2px); /* REDUZIDO: -3px → -2px */
+  box-shadow: 0 10px 30px rgba(255, 122, 0, 0.4); /* REDUZIDO: 0 15px 40px → 0 10px 30px */
 }
 
 .links {
   display: grid;
-  gap: 14px;
+  gap: 12px; /* REDUZIDO: 14px → 12px */
   opacity: 0;
   transform: translateY(10px);
   animation: fadeInUp 0.8s ease forwards;
@@ -115,14 +117,15 @@ p {
 
 .card {
   background: var(--card);
-  padding: 14px 16px;
-  border-radius: 12px;
+  padding: 12px 14px; /* REDUZIDO: 14px 16px → 12px 14px */
+  border-radius: 10px; /* REDUZIDO: 12px → 10px */
   text-decoration: none;
   color: #ffffff;
   font-weight: 500;
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px; /* REDUZIDO: 12px → 10px */
+  font-size: 0.9rem; /* NOVO: texto menor */
   transition: background 0.3s ease, transform 0.3s ease;
   opacity: 0;
   transform: translateY(10px);
@@ -134,19 +137,19 @@ p {
 
 .card:hover {
   background: #1f2640;
-  transform: translateY(-2px);
+  transform: translateY(-1px); /* REDUZIDO: -2px → -1px */
 }
 
 .card img {
-  width: 20px;
-  height: 20px;
-  min-width: 20px;
+  width: 18px; /* REDUZIDO: 20px → 18px */
+  height: 18px; /* REDUZIDO: 20px → 18px */
+  min-width: 18px; /* REDUZIDO: 20px → 18px */
   object-fit: contain;
   opacity: 0.9;
 }
 
 .social-proof {
-  margin-top: 40px;
+  margin-top: 32px; /* REDUZIDO: 40px → 32px */
   opacity: 0;
   transform: translateY(20px);
   animation: fadeInUp 0.8s ease forwards;
@@ -154,14 +157,16 @@ p {
 }
 
 .social-proof h2 {
-  font-size: 1rem;
-  margin-bottom: 14px;
+  font-size: 0.95rem; /* REDUZIDO: 1rem → 0.95rem */
+  margin-bottom: 12px; /* REDUZIDO: 14px → 12px */
   color: var(--muted);
+  font-weight: 500; /* NOVO: mais fino */
 }
 
+/* ==================== LOGOS GRANDES (MANTIDOS) ==================== */
 .logos {
   width: 100%;
-  height: 70px;
+  height: 80px; /* REDUZIDO ligeiramente: 85px → 80px */
   overflow: hidden;
   position: relative;
 }
@@ -187,19 +192,20 @@ p {
 .logos-track {
   display: flex;
   align-items: center;
-  gap: 32px;
+  gap: 35px; /* REDUZIDO: 40px → 35px */
   height: 100%;
   width: max-content;
 }
 
 .logos img {
-  height: 50px;
-  min-width: 90px;
+  height: 60px; /* REDUZIDO: 65px → 60px (mantém bom tamanho) */
+  min-width: 110px; /* REDUZIDO: 120px → 110px (mantém bom tamanho) */
+  max-width: 130px; /* REDUZIDO: 140px → 130px */
   object-fit: contain;
   object-position: center;
   opacity: 0.85;
   flex-shrink: 0;
-  padding: 5px;
+  padding: 4px; /* REDUZIDO: 5px → 4px */
   filter: grayscale(0.3);
   transition: filter 0.3s ease, opacity 0.3s ease;
 }
@@ -208,11 +214,12 @@ p {
   filter: grayscale(0);
   opacity: 1;
 }
+/* ==================== FIM DOS LOGOS ==================== */
 
 .meta {
   display: block;
-  margin-top: 12px;
-  font-size: 0.8rem;
+  margin-top: 10px; /* REDUZIDO: 12px → 10px */
+  font-size: 0.75rem; /* REDUZIDO: 0.8rem → 0.75rem */
   color: var(--muted);
   opacity: 0;
   transform: translateY(10px);
@@ -221,8 +228,8 @@ p {
 }
 
 footer {
-  margin-top: 40px;
-  font-size: 0.75rem;
+  margin-top: 32px; /* REDUZIDO: 40px → 32px */
+  font-size: 0.7rem; /* REDUZIDO: 0.75rem → 0.7rem */
   opacity: 0.4;
   opacity: 0;
   transform: translateY(10px);
@@ -243,30 +250,30 @@ footer {
 }
 
 .loader img {
-  width: 120px;
+  width: 100px; /* REDUZIDO: 120px → 100px */
   animation: loaderPulse 1.2s ease-in-out infinite;
 }
 
 @keyframes driftMG {
   0% { 
     transform: translate(-50%, -50%) rotate(0deg) scale(1);
-    opacity: 0.05;
+    opacity: 0.04;
   }
   25% { 
-    transform: translate(-40%, -45%) rotate(90deg) scale(1.05);
-    opacity: 0.04;
+    transform: translate(-40%, -45%) rotate(90deg) scale(1.03);
+    opacity: 0.03;
   }
   50% { 
     transform: translate(-60%, -55%) rotate(180deg) scale(1);
-    opacity: 0.05;
+    opacity: 0.04;
   }
   75% { 
-    transform: translate(-45%, -50%) rotate(270deg) scale(0.95);
-    opacity: 0.04;
+    transform: translate(-45%, -50%) rotate(270deg) scale(0.97);
+    opacity: 0.03;
   }
   100% { 
     transform: translate(-50%, -50%) rotate(360deg) scale(1);
-    opacity: 0.05;
+    opacity: 0.04;
   }
 }
 
@@ -275,16 +282,16 @@ footer {
     transform: translateX(0);
   }
   100% {
-    transform: translateX(calc(-50% - 16px));
+    transform: translateX(calc(-50% - 17.5px)); /* AJUSTADO: 20px → 17.5px */
   }
 }
 
 @keyframes pulse {
   0% { 
-    box-shadow: 0 0 0 0 rgba(255, 122, 0, 0.7); 
+    box-shadow: 0 0 0 0 rgba(255, 122, 0, 0.6); /* REDUZIDO: 0.7 → 0.6 */
   }
   70% { 
-    box-shadow: 0 0 0 15px rgba(255, 122, 0, 0); 
+    box-shadow: 0 0 0 12px rgba(255, 122, 0, 0); /* REDUZIDO: 15px → 12px */
   }
   100% { 
     box-shadow: 0 0 0 0 rgba(255, 122, 0, 0); 
@@ -297,7 +304,7 @@ footer {
     opacity: 0.6;
   }
   50% { 
-    transform: scale(1.06); 
+    transform: scale(1.04); /* REDUZIDO: 1.06 → 1.04 */
     opacity: 1;
   }
   100% { 
@@ -334,32 +341,75 @@ footer {
   }
 }
 
+/* ==================== MOBILE MINIMALISTA ==================== */
 @media (max-width: 480px) {
+  .container {
+    padding: 20px 14px; /* REDUZIDO: 24px 16px → 20px 14px */
+    max-width: 100%; /* Usa toda largura */
+  }
+  
+  .logo {
+    width: 80px; /* REDUZIDO: 90px → 80px */
+    margin-bottom: 10px; /* REDUZIDO: 12px → 10px */
+  }
+  
+  h1 {
+    font-size: 1.3rem; /* REDUZIDO: 1.4rem → 1.3rem */
+  }
+  
+  p {
+    font-size: 0.85rem; /* REDUZIDO: 0.9rem → 0.85rem */
+    margin: 4px 0 16px; /* REDUZIDO: 6px 0 20px → 4px 0 16px */
+  }
+  
+  .cta {
+    padding: 12px; /* REDUZIDO: 14px → 12px */
+    font-size: 0.9rem; /* REDUZIDO: 0.95rem → 0.9rem */
+    margin-bottom: 20px; /* REDUZIDO: 24px → 20px */
+  }
+  
+  .links {
+    gap: 10px; /* REDUZIDO: 12px → 10px */
+  }
+  
+  .card {
+    padding: 10px 12px; /* REDUZIDO: 12px 14px → 10px 12px */
+    font-size: 0.85rem; /* REDUZIDO: 0.9rem → 0.85rem */
+  }
+  
+  .card img {
+    width: 16px; /* REDUZIDO: 18px → 16px */
+    height: 16px; /* REDUZIDO: 18px → 16px */
+    min-width: 16px; /* REDUZIDO: 18px → 16px */
+  }
+  
+  /* LOGOS NO MOBILE - MANTIDOS GRANDES MAS AJUSTADOS */
   .logos img {
-    height: 42px;
-    min-width: 75px;
+    height: 50px; /* REDUZIDO: 55px → 50px (ainda bom tamanho) */
+    min-width: 90px; /* REDUZIDO: 100px → 90px (ainda bom tamanho) */
+    max-width: 100px; /* REDUZIDO: 110px → 100px */
   }
   
   .logos {
-    height: 60px;
+    height: 65px; /* REDUZIDO: 75px → 65px */
   }
   
   .logos::before {
     background: linear-gradient(
       to right,
       var(--bg) 0%,
-      transparent 10%,
-      transparent 90%,
+      transparent 8%,
+      transparent 92%,
       var(--bg) 100%
     );
   }
   
   @keyframes pulse {
     0% { 
-      box-shadow: 0 0 0 0 rgba(255, 122, 0, 0.7); 
+      box-shadow: 0 0 0 0 rgba(255, 122, 0, 0.5); /* REDUZIDO: 0.6 → 0.5 */
     }
     70% { 
-      box-shadow: 0 0 0 12px rgba(255, 122, 0, 0); 
+      box-shadow: 0 0 0 10px rgba(255, 122, 0, 0); /* REDUZIDO: 12px → 10px */
     }
     100% { 
       box-shadow: 0 0 0 0 rgba(255, 122, 0, 0); 
@@ -367,10 +417,29 @@ footer {
   }
   
   body::before {
-    width: 180px;
-    height: 180px;
-    opacity: 0.04;
+    width: 140px; /* REDUZIDO: 180px → 140px */
+    height: 140px; /* REDUZIDO: 180px → 140px */
+    opacity: 0.03; /* REDUZIDO: 0.04 → 0.03 */
     animation: driftMG 100s linear infinite;
+  }
+  
+  .social-proof {
+    margin-top: 24px; /* REDUZIDO: 32px → 24px */
+  }
+  
+  .social-proof h2 {
+    font-size: 0.9rem; /* REDUZIDO: 0.95rem → 0.9rem */
+    margin-bottom: 10px; /* REDUZIDO: 12px → 10px */
+  }
+  
+  .meta {
+    margin-top: 8px; /* REDUZIDO: 10px → 8px */
+    font-size: 0.7rem; /* REDUZIDO: 0.75rem → 0.7rem */
+  }
+  
+  footer {
+    margin-top: 24px; /* REDUZIDO: 32px → 24px */
+    font-size: 0.65rem; /* REDUZIDO: 0.7rem → 0.65rem */
   }
   
   .container {
@@ -387,9 +456,33 @@ footer {
   footer { animation-delay: 2.8s; }
 }
 
+/* ==================== TABLET ==================== */
+@media (min-width: 481px) and (max-width: 768px) {
+  .logos img {
+    height: 55px; /* REDUZIDO: 60px → 55px */
+    min-width: 100px; /* REDUZIDO: 110px → 100px */
+    max-width: 120px; /* REDUZIDO: 130px → 120px */
+  }
+  
+  .logos {
+    height: 70px; /* REDUZIDO: 80px → 70px */
+  }
+}
+
+/* ==================== DESKTOP GRANDE ==================== */
 @media (min-width: 1200px) {
+  .logos img {
+    height: 65px; /* REDUZIDO: 70px → 65px */
+    min-width: 120px; /* REDUZIDO: 130px → 120px */
+    max-width: 140px; /* REDUZIDO: 150px → 140px */
+  }
+  
+  .logos {
+    height: 80px; /* REDUZIDO: 90px → 80px */
+  }
+  
   body::before {
-    width: 280px;
-    height: 280px;
+    width: 200px; /* REDUZIDO: 280px → 200px */
+    height: 200px; /* REDUZIDO: 280px → 200px */
   }
 }

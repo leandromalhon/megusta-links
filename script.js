@@ -46,7 +46,7 @@ function setCarouselSpeed() {
   if (!track) return;
   
   const isMobile = window.innerWidth <= 480;
-  const speed = isMobile ? '35s' : '30s';
+   const speed = isMobile ? '40s' : '35s';
   
   track.style.animation = `scroll ${speed} linear infinite`;
 }
