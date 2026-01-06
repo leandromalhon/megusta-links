@@ -1,7 +1,25 @@
-/* =========================
-   FADE IN AO SCROLL
-========================= */
+// =========================
+// LOADER
+// =========================
+window.addEventListener('load', () => {
+  const loader = document.querySelector('.loader');
+  
+  // Garantir que o loader fique visível por pelo menos 1 segundo
+  setTimeout(() => {
+    if (loader) {
+      loader.classList.add('hidden');
+      
+      // Remover completamente após a animação
+      setTimeout(() => {
+        loader.style.display = 'none';
+      }, 500);
+    }
+  }, 1000);
+});
 
+// =========================
+// FADE IN AO SCROLL
+// =========================
 const elements = document.querySelectorAll(".fade");
 
 const observer = new IntersectionObserver(
@@ -18,12 +36,13 @@ const observer = new IntersectionObserver(
   { threshold: 0.15 }
 );
 
-elements.forEach(el => observer.observe(el));
+elements.forEach(el => {
+  if (el) observer.observe(el);
+});
 
-/* =========================
-   PARALLAX SUAVE (FUNDO)
-========================= */
-
+// =========================
+// PARALLAX SUAVE (FUNDO)
+// =========================
 window.addEventListener("scroll", () => {
   const scrolled = window.scrollY;
   document.body.style.setProperty(
@@ -32,11 +51,10 @@ window.addEventListener("scroll", () => {
   );
 });
 
-/* =========================
-   CARROSSEL LOGOS
-   Desktop + Mobile
-========================= */
-
+// =========================
+// CARROSSEL LOGOS
+// Desktop + Mobile
+// =========================
 const logosTrack = document.querySelector(".logos-track");
 
 if (logosTrack) {
@@ -66,3 +84,20 @@ if (logosTrack) {
     logosTrack.style.animationPlayState = "running";
   });
 }
+
+// =========================
+// DUPLICAR LOGOS PARA EFEITO DE LOOP CONTÍNUO
+// =========================
+document.addEventListener('DOMContentLoaded', () => {
+  const track = document.querySelector('.logos-track');
+  
+  if (track) {
+    // Clonar os logos para criar loop contínuo
+    const clone = track.cloneNode(true);
+    track.parentNode.appendChild(clone);
+    
+    // Ajustar a largura total
+    const originalWidth = track.scrollWidth;
+    track.style.width = `${originalWidth * 2}px`;
+  }
+});
