@@ -2,26 +2,29 @@
    FADE IN AO SCROLL
 ========================= */
 
-const elements = document.querySelectorAll('.fade');
+const elements = document.querySelectorAll(".fade");
 
-const observer = new IntersectionObserver(entries => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.style.opacity = 1;
-      entry.target.style.transform = 'translateY(0)';
-      entry.target.style.transition = '0.6s ease';
-    }
-  });
-}, { threshold: 0.1 });
+const observer = new IntersectionObserver(
+  entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity = "1";
+        entry.target.style.transform = "translateY(0)";
+        entry.target.style.transition = "opacity 0.6s ease, transform 0.6s ease";
+        observer.unobserve(entry.target);
+      }
+    });
+  },
+  { threshold: 0.15 }
+);
 
 elements.forEach(el => observer.observe(el));
 
-
 /* =========================
-   PARALLAX SUAVE
+   PARALLAX SUAVE (FUNDO)
 ========================= */
 
-document.addEventListener("scroll", () => {
+window.addEventListener("scroll", () => {
   const scrolled = window.scrollY;
   document.body.style.setProperty(
     "--parallax-offset",
@@ -29,17 +32,15 @@ document.addEventListener("scroll", () => {
   );
 });
 
-
 /* =========================
-   LOGOS – PAUSE / RESUME
+   CARROSSEL LOGOS
    Desktop + Mobile
 ========================= */
 
 const logosTrack = document.querySelector(".logos-track");
 
 if (logosTrack) {
-
-  // Desktop (mouse)
+  // Desktop
   logosTrack.addEventListener("mouseenter", () => {
     logosTrack.style.animationPlayState = "paused";
   });
@@ -48,10 +49,14 @@ if (logosTrack) {
     logosTrack.style.animationPlayState = "running";
   });
 
-  // Mobile (toque)
-  logosTrack.addEventListener("touchstart", () => {
-    logosTrack.style.animationPlayState = "paused";
-  }, { passive: true });
+  // Mobile
+  logosTrack.addEventListener(
+    "touchstart",
+    () => {
+      logosTrack.style.animationPlayState = "paused";
+    },
+    { passive: true }
+  );
 
   logosTrack.addEventListener("touchend", () => {
     logosTrack.style.animationPlayState = "running";
