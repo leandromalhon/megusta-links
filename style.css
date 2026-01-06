@@ -6,14 +6,12 @@
   --muted: #9ca3af;
 }
 
-/* RESET */
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
-/* BODY */
 body {
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   background: var(--bg);
@@ -25,42 +23,23 @@ body {
   min-height: 100vh;
 }
 
-/* FUNDO MG - ANIMAÇÃO CONTINUA */
 body::before {
   content: "";
   position: fixed;
-  top: 15%;
-  left: 10%;
-  width: 200px;
-  height: 200px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 250px;
+  height: 250px;
   background: url("assets/mg-watermark.svg") no-repeat center;
   background-size: contain;
-  opacity: 0.06;
+  opacity: 0.05;
   z-index: 0;
   pointer-events: none;
-  animation: driftMG 45s linear infinite alternate;
+  animation: driftMG 80s linear infinite;
   filter: blur(0.3px);
 }
 
-/* SEGUNDA MARCA D'ÁGUA */
-body::after {
-  content: "";
-  position: fixed;
-  bottom: 20%;
-  right: 8%;
-  width: 150px;
-  height: 150px;
-  background: url("assets/mg-watermark.svg") no-repeat center;
-  background-size: contain;
-  opacity: 0.04;
-  z-index: 0;
-  pointer-events: none;
-  animation: driftMG2 60s linear infinite alternate;
-  transform: rotate(15deg);
-  filter: blur(0.4px);
-}
-
-/* CONTAINER */
 .container {
   width: 100%;
   max-width: 420px;
@@ -74,7 +53,6 @@ body::after {
   animation-delay: 1.5s;
 }
 
-/* HEADER */
 .logo {
   width: 110px;
   margin-bottom: 16px;
@@ -102,7 +80,6 @@ p {
   animation-delay: 2.1s;
 }
 
-/* CTA COM PULSE CONSTANTE (COMO NO CÓDIGO ORIGINAL) */
 .cta {
   display: block;
   background: var(--primary);
@@ -116,7 +93,7 @@ p {
   opacity: 0;
   transform: translateY(10px);
   animation: fadeInUp 0.8s ease forwards, pulse 2s infinite;
-  animation-delay: 2.3s, 3.3s; /* pulse só começa depois do fadeIn */
+  animation-delay: 2.3s, 3.3s;
   position: relative;
   overflow: hidden;
   z-index: 1;
@@ -127,7 +104,6 @@ p {
   box-shadow: 0 15px 40px rgba(255, 122, 0, 0.45);
 }
 
-/* LINKS */
 .links {
   display: grid;
   gap: 14px;
@@ -137,7 +113,6 @@ p {
   animation-delay: 2.5s;
 }
 
-/* BOTÕES */
 .card {
   background: var(--card);
   padding: 14px 16px;
@@ -162,7 +137,6 @@ p {
   transform: translateY(-2px);
 }
 
-/* ÍCONES DOS BOTÕES */
 .card img {
   width: 20px;
   height: 20px;
@@ -171,7 +145,6 @@ p {
   opacity: 0.9;
 }
 
-/* ───────── PROVA SOCIAL ───────── */
 .social-proof {
   margin-top: 40px;
   opacity: 0;
@@ -186,26 +159,29 @@ p {
   color: var(--muted);
 }
 
-/* CARROSSEL - AGORA COM MÁSCARA PARA ESCONDER EXTREMIDADES */
 .logos {
   width: 100%;
   height: 70px;
   overflow: hidden;
   position: relative;
-  mask-image: linear-gradient(
+}
+
+.logos::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
     to right,
-    transparent 0%,
-    black 15%,
-    black 85%,
-    transparent 100%
+    var(--bg) 0%,
+    transparent 15%,
+    transparent 85%,
+    var(--bg) 100%
   );
-  -webkit-mask-image: linear-gradient(
-    to right,
-    transparent 0%,
-    black 15%,
-    black 85%,
-    transparent 100%
-  );
+  z-index: 2;
+  pointer-events: none;
 }
 
 .logos-track {
@@ -213,9 +189,9 @@ p {
   align-items: center;
   gap: 32px;
   height: 100%;
+  width: max-content;
 }
 
-/* LOGOS DO CARROSSEL - AGORA COM UMA CÓPIA APENAS NO HTML */
 .logos img {
   height: 50px;
   min-width: 90px;
@@ -233,7 +209,6 @@ p {
   opacity: 1;
 }
 
-/* TEXTO AUXILIAR */
 .meta {
   display: block;
   margin-top: 12px;
@@ -245,7 +220,6 @@ p {
   animation-delay: 3.5s;
 }
 
-/* FOOTER */
 footer {
   margin-top: 40px;
   font-size: 0.75rem;
@@ -256,7 +230,6 @@ footer {
   animation-delay: 3.7s;
 }
 
-/* LOADER */
 .loader {
   position: fixed;
   inset: 0;
@@ -274,59 +247,38 @@ footer {
   animation: loaderPulse 1.2s ease-in-out infinite;
 }
 
-/* =========================
-   KEYFRAMES - ANIMAÇÕES
-========================= */
-
-/* MARCA D'ÁGUA 1 */
 @keyframes driftMG {
   0% { 
-    transform: translate(0, 0) rotate(0deg); 
-    opacity: 0.06;
+    transform: translate(-50%, -50%) rotate(0deg) scale(1);
+    opacity: 0.05;
   }
   25% { 
-    transform: translate(15vw, 8vh) rotate(5deg); 
-    opacity: 0.05;
-  }
-  50% { 
-    transform: translate(25vw, 12vh) rotate(10deg); 
+    transform: translate(-40%, -45%) rotate(90deg) scale(1.05);
     opacity: 0.04;
   }
-  75% { 
-    transform: translate(10vw, 15vh) rotate(5deg); 
+  50% { 
+    transform: translate(-60%, -55%) rotate(180deg) scale(1);
     opacity: 0.05;
   }
+  75% { 
+    transform: translate(-45%, -50%) rotate(270deg) scale(0.95);
+    opacity: 0.04;
+  }
   100% { 
-    transform: translate(30vw, 5vh) rotate(0deg); 
-    opacity: 0.06;
+    transform: translate(-50%, -50%) rotate(360deg) scale(1);
+    opacity: 0.05;
   }
 }
 
-/* MARCA D'ÁGUA 2 */
-@keyframes driftMG2 {
-  0% { 
-    transform: translate(0, 0) rotate(15deg); 
-    opacity: 0.04;
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
   }
-  25% { 
-    transform: translate(-10vw, -5vh) rotate(20deg); 
-    opacity: 0.03;
-  }
-  50% { 
-    transform: translate(-20vw, 5vh) rotate(25deg); 
-    opacity: 0.04;
-  }
-  75% { 
-    transform: translate(-5vw, -8vh) rotate(20deg); 
-    opacity: 0.03;
-  }
-  100% { 
-    transform: translate(-25vw, 3vh) rotate(15deg); 
-    opacity: 0.04;
+  100% {
+    transform: translateX(calc(-50% - 16px));
   }
 }
 
-/* PULSE DO CTA (EXATAMENTE COMO NO CÓDIGO ORIGINAL) */
 @keyframes pulse {
   0% { 
     box-shadow: 0 0 0 0 rgba(255, 122, 0, 0.7); 
@@ -339,7 +291,6 @@ footer {
   }
 }
 
-/* LOADER */
 @keyframes loaderPulse {
   0% { 
     transform: scale(1); 
@@ -361,7 +312,6 @@ footer {
   100% { opacity: 0; visibility: hidden; }
 }
 
-/* ENTRADA DOS ELEMENTOS */
 @keyframes fadeInUp {
   from {
     opacity: 0;
@@ -384,7 +334,6 @@ footer {
   }
 }
 
-/* MOBILE */
 @media (max-width: 480px) {
   .logos img {
     height: 42px;
@@ -393,23 +342,18 @@ footer {
   
   .logos {
     height: 60px;
-    mask-image: linear-gradient(
+  }
+  
+  .logos::before {
+    background: linear-gradient(
       to right,
-      transparent 0%,
-      black 10%,
-      black 90%,
-      transparent 100%
-    );
-    -webkit-mask-image: linear-gradient(
-      to right,
-      transparent 0%,
-      black 10%,
-      black 90%,
-      transparent 100%
+      var(--bg) 0%,
+      transparent 10%,
+      transparent 90%,
+      var(--bg) 100%
     );
   }
   
-  /* Ajustar pulse para mobile */
   @keyframes pulse {
     0% { 
       box-shadow: 0 0 0 0 rgba(255, 122, 0, 0.7); 
@@ -422,20 +366,13 @@ footer {
     }
   }
   
-  /* Reduzir animações das marcas d'água no mobile */
   body::before {
-    width: 150px;
-    height: 150px;
-    animation: driftMG 60s linear infinite alternate;
+    width: 180px;
+    height: 180px;
+    opacity: 0.04;
+    animation: driftMG 100s linear infinite;
   }
   
-  body::after {
-    width: 120px;
-    height: 120px;
-    opacity: 0.03;
-  }
-  
-  /* Ajustar delays para mobile */
   .container {
     animation-delay: 1s;
   }
@@ -450,17 +387,9 @@ footer {
   footer { animation-delay: 2.8s; }
 }
 
-/* DESKTOP GRANDE */
 @media (min-width: 1200px) {
   body::before {
-    width: 250px;
-    height: 250px;
-    opacity: 0.05;
-  }
-  
-  body::after {
-    width: 180px;
-    height: 180px;
-    opacity: 0.035;
+    width: 280px;
+    height: 280px;
   }
 }

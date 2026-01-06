@@ -1,43 +1,32 @@
-// =========================
-// LOADER
-// =========================
 window.addEventListener('load', () => {
   const loader = document.querySelector('.loader');
   
-  // Garantir que o loader fique visível por pelo menos 1 segundo
   setTimeout(() => {
     if (loader) {
       loader.style.display = 'none';
     }
-    
-    // Iniciar carrossel após loader
     initCarousel();
-    
   }, 1200);
 });
 
-// =========================
-// CARROSSEL DE LOGOS SIMPLES
-// =========================
 function initCarousel() {
   const track = document.querySelector('.logos-track');
   const container = document.querySelector('.logos');
   
   if (!track || !container) return;
   
-  // Configurar animação CSS diretamente
-  track.style.animation = 'scroll 30s linear infinite';
+  setCarouselSpeed();
   
-  // Pausar no hover
-  container.addEventListener('mouseenter', () => {
-    track.style.animationPlayState = 'paused';
-  });
+  if (window.innerWidth > 480) {
+    container.addEventListener('mouseenter', () => {
+      track.style.animationPlayState = 'paused';
+    });
+    
+    container.addEventListener('mouseleave', () => {
+      track.style.animationPlayState = 'running';
+    });
+  }
   
-  container.addEventListener('mouseleave', () => {
-    track.style.animationPlayState = 'running';
-  });
-  
-  // Pausar no touch (mobile)
   container.addEventListener('touchstart', () => {
     track.style.animationPlayState = 'paused';
   });
@@ -48,48 +37,39 @@ function initCarousel() {
     }, 300);
   });
   
-  // Adicionar keyframes dinamicamente
-  addScrollKeyframes();
+  optimizeCarouselImages();
+  window.addEventListener('resize', debounce(setCarouselSpeed, 250));
 }
 
-// =========================
-// ADICIONAR KEYFRAMES DINAMICAMENTE
-// =========================
-function addScrollKeyframes() {
-  // Verificar se já existe
-  if (document.querySelector('#scroll-keyframes')) return;
+function setCarouselSpeed() {
+  const track = document.querySelector('.logos-track');
+  if (!track) return;
   
-  const style = document.createElement('style');
-  style.id = 'scroll-keyframes';
+  const isMobile = window.innerWidth <= 480;
+  const speed = isMobile ? '35s' : '30s';
   
-  // Calcular porcentagem baseada no número de imagens
-  // Com 43 imagens duplicadas = 86 imagens no total
-  // A animação move 50% (metade das imagens) para criar loop
-  style.textContent = `
-    @keyframes scroll {
-      from {
-        transform: translateX(0);
-      }
-      to {
-        transform: translateX(-50%);
-      }
-    }
-  `;
-  
-  document.head.appendChild(style);
+  track.style.animation = `scroll ${speed} linear infinite`;
 }
 
-// =========================
-// OTIMIZAR IMAGENS DO CARROSSEL
-// =========================
+function debounce(func, wait) {
+  let timeout;
+  return function executedFunction(...args) {
+    const later = () => {
+      clearTimeout(timeout);
+      func(...args);
+    };
+    clearTimeout(timeout);
+    timeout = setTimeout(later, wait);
+  };
+}
+
 function optimizeCarouselImages() {
   const logos = document.querySelectorAll('.logos img');
   
   logos.forEach(img => {
-    // Prevenir drag
     img.setAttribute('draggable', 'false');
+    img.addEventListener('dragstart', (e) => e.preventDefault());
     
-    // Ajustar clip-path se necessário
     img.onload = function() {
       adjustLogoClip(this);
     };
@@ -101,7 +81,6 @@ function optimizeCarouselImages() {
 function adjustLogoClip(img) {
   const naturalRatio = img.naturalWidth / img.naturalHeight;
   
-  // Ajustes diferentes baseados na proporção
   if (naturalRatio < 1.2) {
     img.style.clipPath = 'inset(10% 0 10% 0)';
   } else if (naturalRatio > 2) {
@@ -111,14 +90,9 @@ function adjustLogoClip(img) {
   }
 }
 
-// =========================
-// INICIALIZAR TUDO
-// =========================
 document.addEventListener('DOMContentLoaded', () => {
-  // Otimizar imagens
   optimizeCarouselImages();
   
-  // Efeitos de hover simples
   const cards = document.querySelectorAll('.card');
   cards.forEach(card => {
     card.addEventListener('mouseenter', () => {
@@ -128,17 +102,68 @@ document.addEventListener('DOMContentLoaded', () => {
     card.addEventListener('mouseleave', () => {
       card.style.transform = 'translateY(0)';
     });
+    
+    card.addEventListener('mousedown', () => {
+      card.style.transform = 'translateY(0) scale(0.98)';
+    });
+    
+    card.addEventListener('mouseup', () => {
+      card.style.transform = 'translateY(-2px)';
+    });
   });
   
-  // Efeito no CTA
   const cta = document.querySelector('.cta');
   if (cta) {
     cta.addEventListener('mouseenter', () => {
       cta.style.transform = 'translateY(-3px)';
+      cta.style.boxShadow = '0 15px 40px rgba(255, 122, 0, 0.45)';
     });
     
     cta.addEventListener('mouseleave', () => {
       cta.style.transform = 'translateY(0)';
+      cta.style.boxShadow = 'none';
+    });
+    
+    cta.addEventListener('mousedown', () => {
+      cta.style.transform = 'translateY(-1px) scale(0.98)';
+    });
+    
+    cta.addEventListener('mouseup', () => {
+      cta.style.transform = 'translateY(-3px)';
     });
   }
+  
+  const observer = new MutationObserver((mutations) => {
+    mutations.forEach((mutation) => {
+      if (mutation.type === 'childList') {
+        optimizeCarouselImages();
+      }
+    });
+  });
+  
+  const track = document.querySelector('.logos-track');
+  if (track) {
+    observer.observe(track, { childList: true });
+  }
 });
+
+let lastTouchEnd = 0;
+document.addEventListener('touchend', (event) => {
+  const now = Date.now();
+  if (now - lastTouchEnd <= 300) {
+    event.preventDefault();
+  }
+  lastTouchEnd = now;
+}, false);
+
+let startY = 0;
+document.addEventListener('touchstart', (event) => {
+  startY = event.touches[0].pageY;
+}, { passive: true });
+
+document.addEventListener('touchmove', (event) => {
+  const y = event.touches[0].pageY;
+  if (window.scrollY === 0 && y > startY) {
+    event.preventDefault();
+  }
+}, { passive: false });
