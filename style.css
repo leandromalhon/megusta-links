@@ -47,20 +47,38 @@ body {
   animation: pulse 1.5s infinite ease-in-out;
 }
 
-/* FUNDO MG (PARALLAX SUAVE) */
+/* FUNDO MG (PARALLAX SUAVE) - MARCA D'ÁGUA NAVEGANTE */
 body::before {
   content: "";
   position: fixed;
-  top: 12%;
-  left: 8%;
-  width: 220px;
-  height: 220px;
+  top: 10%;
+  left: 5%;
+  width: 250px;
+  height: 250px;
   background: url("assets/mg-watermark.svg") no-repeat center;
   background-size: contain;
-  opacity: 0.05;
+  opacity: 0.04;
   pointer-events: none;
-  transform: translateY(var(--parallax-offset, 0));
-  transition: transform 0.15s linear;
+  transform: translateY(var(--parallax-offset, 0)) rotate(-5deg);
+  transition: transform 0.1s linear;
+  z-index: 0;
+  filter: blur(0.5px);
+}
+
+/* SEGUNDA MARCA D'ÁGUA PARA PREENCHER MAIS ESPAÇO */
+body::after {
+  content: "";
+  position: fixed;
+  bottom: 15%;
+  right: 5%;
+  width: 180px;
+  height: 180px;
+  background: url("assets/mg-watermark.svg") no-repeat center;
+  background-size: contain;
+  opacity: 0.03;
+  pointer-events: none;
+  transform: translateY(calc(var(--parallax-offset, 0) * -0.6)) rotate(10deg);
+  transition: transform 0.1s linear;
   z-index: 0;
 }
 
@@ -171,15 +189,23 @@ p {
 /* CARROSSEL */
 .logos {
   width: 100%;
-  height: 60px;
+  height: 70px; /* Aumentei para acomodar logos com áreas transparentes */
   overflow: hidden;
   position: relative;
+  margin: 0 auto;
   mask-image: linear-gradient(
     to right,
-    transparent,
+    transparent 0%,
     black 10%,
     black 90%,
-    transparent
+    transparent 100%
+  );
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    black 10%,
+    black 90%,
+    transparent 100%
   );
 }
 
@@ -188,16 +214,27 @@ p {
   align-items: center;
   gap: 32px;
   width: max-content;
-  animation: scroll 30s linear infinite;
+  height: 100%;
+  animation: scroll 40s linear infinite;
 }
 
-/* LOGOS */
+/* AJUSTE PARA LOGOS COM ÁREAS TRANSPARENTES */
 .logos img {
-  height: 42px;
-  min-width: clamp(72px, 8vw, 96px);
+  height: 50px; /* Aumentei a altura */
+  min-width: 90px; /* Largura mínima maior */
   object-fit: contain;
-  opacity: 0.85;
+  object-position: center;
+  opacity: 0.9;
   flex-shrink: 0;
+  padding: 5px 0; /* Adiciona padding interno para ajustar posição */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Remover áreas transparentes usando clip-path */
+.logos img {
+  clip-path: inset(5% 0 5% 0); /* Corta 5% do topo e 5% da base */
 }
 
 /* PAUSE APENAS EM DESKTOP REAL */
@@ -229,7 +266,7 @@ footer {
     transform: translateX(0);
   }
   to {
-    transform: translateX(-50%);
+    transform: translateX(-50%); /* Move metade da largura para criar loop */
   }
 }
 
@@ -242,8 +279,12 @@ footer {
 /* MOBILE */
 @media (max-width: 480px) {
   .logos img {
-    height: 36px;
-    min-width: 64px;
+    height: 42px;
+    min-width: 75px;
+  }
+  
+  .logos {
+    height: 60px;
   }
   
   .container {
@@ -252,6 +293,12 @@ footer {
   
   .social-proof {
     margin-top: 32px;
+  }
+  
+  /* Ajustar marca d'água no mobile */
+  body::before,
+  body::after {
+    opacity: 0.02;
   }
 }
 
