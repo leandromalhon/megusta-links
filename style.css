@@ -34,9 +34,7 @@ body::before {
   background: url("assets/mg-watermark.svg") no-repeat center;
   background-size: contain;
   opacity: 0.05;
-  z-index: 0;
   pointer-events: none;
-  transform: translateY(var(--parallax-offset, 0));
   animation: driftMG 55s linear infinite alternate;
 }
 
@@ -70,18 +68,18 @@ p {
 .cta {
   display: block;
   background: var(--primary);
-  color: #ffffff;
-  text-decoration: none;
+  color: #fff;
   padding: 16px;
   border-radius: 14px;
   font-weight: 700;
   margin-bottom: 28px;
+  text-decoration: none;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .cta:hover {
   transform: translateY(-3px);
-  box-shadow: 0 15px 40px rgba(255, 122, 0, 0.45);
+  box-shadow: 0 15px 40px rgba(255,122,0,0.45);
 }
 
 /* LINKS */
@@ -90,19 +88,16 @@ p {
   gap: 14px;
 }
 
-/* BOTÕES */
 .card {
   background: var(--card);
   padding: 14px 16px;
   border-radius: 12px;
+  color: #fff;
   text-decoration: none;
-  color: #ffffff;
   font-weight: 500;
-
   display: flex;
   align-items: center;
   gap: 12px;
-
   transition: background 0.3s ease, transform 0.3s ease;
 }
 
@@ -111,13 +106,10 @@ p {
   transform: translateY(-2px);
 }
 
-/* ÍCONES DOS BOTÕES (CRÍTICO) */
 .card img {
   width: 20px;
   height: 20px;
-  min-width: 20px;
   object-fit: contain;
-  opacity: 0.9;
 }
 
 /* ───────── PROVA SOCIAL ───────── */
@@ -135,6 +127,7 @@ p {
   width: 100%;
   height: 60px;
   overflow: hidden;
+  position: relative;
 }
 
 .logos-track {
@@ -145,7 +138,7 @@ p {
   animation: scroll 30s linear infinite;
 }
 
-/* LOGOS DO CARROSSEL */
+/* LOGOS */
 .logos img {
   height: 42px;
   min-width: clamp(72px, 8vw, 96px);
@@ -154,16 +147,11 @@ p {
   flex-shrink: 0;
 }
 
-.logos:hover .logos-track {
-  animation-play-state: paused;
-}
-
-/* TEXTO AUXILIAR */
-.meta {
-  display: block;
-  margin-top: 12px;
-  font-size: 0.8rem;
-  color: var(--muted);
+/* PAUSE APENAS EM HOVER REAL (DESKTOP) */
+@media (hover: hover) and (pointer: fine) {
+  .logos:hover .logos-track {
+    animation-play-state: paused;
+  }
 }
 
 /* FOOTER */
@@ -173,34 +161,7 @@ footer {
   opacity: 0.4;
 }
 
-/* LOADER */
-.loader {
-  position: fixed;
-  inset: 0;
-  background: #0b0f1a;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 9999;
-  animation: loaderFade 1.4s ease forwards;
-  animation-delay: 1.2s;
-}
-
-.loader img {
-  width: 120px;
-  animation: loaderPulse 1.2s ease-in-out infinite;
-}
-
 /* ANIMAÇÕES */
-.fade {
-  animation: fadeIn 0.8s ease forwards;
-}
-
-.pulse {
-  animation: pulse 2s infinite;
-}
-
-/* KEYFRAMES */
 @keyframes driftMG {
   0% { transform: translate(0, 0); }
   100% { transform: translate(38vw, 14vh); }
@@ -209,26 +170,6 @@ footer {
 @keyframes scroll {
   from { transform: translateX(0); }
   to { transform: translateX(-50%); }
-}
-
-@keyframes pulse {
-  0% { box-shadow: 0 0 0 0 rgba(255,122,0,0.6); }
-  70% { box-shadow: 0 0 0 18px rgba(255,122,0,0); }
-  100% { box-shadow: 0 0 0 0 rgba(255,122,0,0); }
-}
-
-@keyframes loaderPulse {
-  0% { transform: scale(1); opacity: 0.6; }
-  50% { transform: scale(1.06); opacity: 1; }
-  100% { transform: scale(1); opacity: 0.6; }
-}
-
-@keyframes loaderFade {
-  to { opacity: 0; pointer-events: none; }
-}
-
-@keyframes fadeIn {
-  to { opacity: 1; transform: none; }
 }
 
 /* MOBILE */
