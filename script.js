@@ -1,142 +1,203 @@
 // =========================
-// LOADER
-// =========================
-window.addEventListener('load', () => {
-  const loader = document.querySelector('.loader');
-  
-  // Garantir que o loader fique visível por pelo menos 1 segundo
-  setTimeout(() => {
-    if (loader) {
-      loader.classList.add('hidden');
-      
-      // Remover completamente após a animação
-      setTimeout(() => {
-        loader.style.display = 'none';
-      }, 500);
-    }
-  }, 1000);
-});
-
-// =========================
-// FADE IN AO SCROLL
-// =========================
-const elements = document.querySelectorAll(".fade");
-
-const observer = new IntersectionObserver(
-  entries => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.style.opacity = "1";
-        entry.target.style.transform = "translateY(0)";
-        entry.target.style.transition = "opacity 0.6s ease, transform 0.6s ease";
-        observer.unobserve(entry.target);
-      }
-    });
-  },
-  { threshold: 0.15 }
-);
-
-elements.forEach(el => {
-  if (el) observer.observe(el);
-});
-
-// =========================
-// PARALLAX SUAVE (FUNDO) - MARCA D'ÁGUA NAVEGANTE
-// =========================
-window.addEventListener("scroll", () => {
-  const scrolled = window.scrollY;
-  document.body.style.setProperty(
-    "--parallax-offset",
-    `${scrolled * 0.05}px` // Aumentei para 0.05 para mais movimento
-  );
-});
-
-// =========================
-// CARROSSEL LOGOS - LOOPING INFINITO
+// LOADER & INICIALIZAÇÃO
 // =========================
 document.addEventListener('DOMContentLoaded', () => {
-  const logosContainer = document.querySelector('.logos');
+  
+  // Remover loader após animação
+  setTimeout(() => {
+    const loader = document.querySelector('.loader');
+    if (loader) {
+      loader.style.display = 'none';
+    }
+    
+    // Iniciar carrossel após loader
+    initCarousel();
+    
+    // Adicionar efeito de parallax suave nas marcas d'água
+    initWatermarkParallax();
+    
+  }, 1200); // Tempo igual ao CSS animation-delay
+
+  // Adicionar hover effect nos cards
+  const cards = document.querySelectorAll('.card');
+  cards.forEach(card => {
+    card.addEventListener('mouseenter', () => {
+      card.style.transform = 'translateY(-2px)';
+    });
+    
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = 'translateY(0)';
+    });
+  });
+
+  // Efeito especial no CTA
+  const cta = document.querySelector('.cta');
+  if (cta) {
+    cta.addEventListener('mouseenter', () => {
+      cta.style.transform = 'translateY(-3px)';
+      cta.style.boxShadow = '0 15px 40px rgba(255, 122, 0, 0.45)';
+    });
+    
+    cta.addEventListener('mouseleave', () => {
+      cta.style.transform = 'translateY(0)';
+      cta.style.boxShadow = 'none';
+    });
+    
+    // Efeito de clique
+    cta.addEventListener('mousedown', () => {
+      cta.style.transform = 'translateY(-1px) scale(0.98)';
+    });
+    
+    cta.addEventListener('mouseup', () => {
+      cta.style.transform = 'translateY(-3px)';
+    });
+  }
+});
+
+// =========================
+// CARROSSEL DE LOGOS
+// =========================
+function initCarousel() {
   const track = document.querySelector('.logos-track');
+  const container = document.querySelector('.logos');
   
-  if (!track) return;
+  if (!track || !container) return;
   
-  // 1. DUPLICAR OS LOGOS PARA CRIAR EFEITO DE LOOP CONTÍNUO
+  // 1. Clonar logos para criar loop infinito
+  const originalImages = track.querySelectorAll('img');
   const cloneTrack = track.cloneNode(true);
   track.parentNode.appendChild(cloneTrack);
   
-  // 2. AJUSTAR LARGURA PARA DUAS CÓPIAS
-  const originalImages = track.querySelectorAll('img');
-  const totalWidth = originalImages.length * (90 + 32); // largura + gap
-  track.style.width = `${totalWidth * 2}px`; // Dobra a largura
+  // 2. Ajustar largura total
+  const totalImages = originalImages.length;
+  const gap = 32; // gap do CSS
+  const minWidth = 90; // min-width do CSS
+  const totalWidth = totalImages * (minWidth + gap);
+  track.style.width = `${totalWidth * 2}px`;
   
-  // 3. CONFIGURAR ANIMAÇÃO
-  const animationDuration = 40; // segundos
-  track.style.animationDuration = `${animationDuration}s`;
+  // 3. Configurar velocidade baseada na quantidade
+  const baseDuration = 40; // segundos para 43 imagens
+  const duration = baseDuration;
+  track.style.animationDuration = `${duration}s`;
   
-  // 4. INTERAÇÃO: PAUSA AO PASSAR MOUSE/DEDO
+  // 4. Interação - pausa no hover/touch
   // Desktop
-  logosContainer.addEventListener("mouseenter", () => {
-    track.style.animationPlayState = "paused";
+  container.addEventListener('mouseenter', () => {
+    track.style.animationPlayState = 'paused';
   });
   
-  logosContainer.addEventListener("mouseleave", () => {
-    track.style.animationPlayState = "running";
+  container.addEventListener('mouseleave', () => {
+    track.style.animationPlayState = 'running';
   });
   
   // Mobile
-  logosContainer.addEventListener("touchstart", () => {
-    track.style.animationPlayState = "paused";
-  }, { passive: true });
+  let isTouching = false;
+  container.addEventListener('touchstart', (e) => {
+    track.style.animationPlayState = 'paused';
+    isTouching = true;
+    e.preventDefault();
+  }, { passive: false });
   
-  logosContainer.addEventListener("touchend", () => {
-    track.style.animationPlayState = "running";
+  container.addEventListener('touchend', () => {
+    isTouching = false;
+    setTimeout(() => {
+      if (!isTouching) {
+        track.style.animationPlayState = 'running';
+      }
+    }, 300);
   });
   
-  logosContainer.addEventListener("touchcancel", () => {
-    track.style.animationPlayState = "running";
+  container.addEventListener('touchcancel', () => {
+    isTouching = false;
+    track.style.animationPlayState = 'running';
   });
   
-  // 5. RESET SUAVE DA ANIMAÇÃO (evitar piscar no fim do loop)
-  track.addEventListener('animationiteration', () => {
-    // A animação CSS já cria um loop perfeito com translateX(-50%)
-  });
-  
-  // 6. OTIMIZAR IMAGENS - AJUSTAR ALTURA DINAMICAMENTE
+  // 5. Otimizar imagens
   const allLogos = document.querySelectorAll('.logos img');
   allLogos.forEach(img => {
-    // Quando a imagem carregar, ajustar se necessário
+    // Prevenir drag das imagens
+    img.setAttribute('draggable', 'false');
+    
+    // Ajustar clip-path baseado na proporção
     img.onload = function() {
-      const naturalRatio = this.naturalWidth / this.naturalHeight;
-      const displayRatio = 90 / 50; // width / height do container
-      
-      // Se a imagem for muito vertical, ajustar clip-path
-      if (naturalRatio < 1.2) { // Imagem mais quadrada/vertical
-        this.style.clipPath = 'inset(10% 0 10% 0)';
-      } else if (naturalRatio > 2) { // Imagem muito horizontal
-        this.style.clipPath = 'inset(2% 0 2% 0)';
-      }
+      adjustLogoClip(this);
     };
     
-    // Forçar verificação se já carregou
-    if (img.complete) img.onload();
+    if (img.complete) adjustLogoClip(img);
   });
+}
+
+function adjustLogoClip(img) {
+  const naturalRatio = img.naturalWidth / img.naturalHeight;
+  
+  // Ajustar clip-path baseado na proporção da imagem
+  if (naturalRatio < 1.2) { // Imagem mais quadrada/vertical
+    img.style.clipPath = 'inset(10% 0 10% 0)';
+  } else if (naturalRatio > 2) { // Imagem muito horizontal
+    img.style.clipPath = 'inset(2% 0 2% 0)';
+  } else { // Proporção normal
+    img.style.clipPath = 'inset(5% 0 5% 0)';
+  }
+}
+
+// =========================
+// PARALLAX NAS MARCAS D'ÁGUA
+// =========================
+function initWatermarkParallax() {
+  let ticking = false;
+  
+  window.addEventListener('scroll', () => {
+    if (!ticking) {
+      window.requestAnimationFrame(() => {
+        const scrolled = window.scrollY;
+        const speed = 0.03; // Velocidade do parallax
+        
+        // Aplicar parallax suave
+        document.body.style.setProperty('--parallax-offset', `${scrolled * speed}px`);
+        
+        // Efeito adicional nas marcas d'água
+        const watermarks = document.querySelectorAll('body::before, body::after');
+        
+        ticking = false;
+      });
+      ticking = true;
+    }
+  });
+}
+
+// =========================
+// DETECTAR REDIMENSIONAMENTO
+// =========================
+let resizeTimeout;
+window.addEventListener('resize', () => {
+  clearTimeout(resizeTimeout);
+  resizeTimeout = setTimeout(() => {
+    // Reajustar carrossel se necessário
+    const track = document.querySelector('.logos-track');
+    if (track) {
+      track.style.animationPlayState = 'running';
+    }
+  }, 250);
 });
 
 // =========================
-// OTIMIZAÇÃO DE PERFORMANCE
+// ANIMAÇÃO DE ENTRADA OBSERVER
 // =========================
-// Usar requestAnimationFrame para parallax suave
-let ticking = false;
-window.addEventListener('scroll', () => {
-  if (!ticking) {
-    window.requestAnimationFrame(() => {
-      const scrolled = window.scrollY;
-      document.body.style.setProperty(
-        "--parallax-offset",
-        `${scrolled * 0.05}px`
-      );
-      ticking = false;
-    });
-    ticking = true;
-  }
+// Adicionar fallback para browsers antigos
+const observerOptions = {
+  threshold: 0.1,
+  rootMargin: '0px 0px -50px 0px'
+};
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('animated');
+    }
+  });
+}, observerOptions);
+
+// Observar elementos que podem ter sido carregados depois
+document.querySelectorAll('.fade-element').forEach(el => {
+  observer.observe(el);
 });

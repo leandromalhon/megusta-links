@@ -7,9 +7,7 @@
 }
 
 /* RESET */
-*,
-*::before,
-*::after {
+* {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -20,164 +18,187 @@ body {
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   background: var(--bg);
   color: var(--text);
-  overflow-x: hidden;
-  margin: 0;
-  min-height: 100vh;
-  position: relative;
-}
-
-/* LOADER */
-.loader {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: var(--bg);
   display: flex;
   justify-content: center;
-  align-items: center;
-  z-index: 1000;
-  transition: opacity 0.5s ease, visibility 0.5s ease;
+  position: relative;
+  overflow-x: hidden;
+  min-height: 100vh;
 }
 
-.loader img {
-  width: 80px;
-  height: auto;
-  animation: pulse 1.5s infinite ease-in-out;
-}
-
-/* FUNDO MG (PARALLAX SUAVE) - MARCA D'ÁGUA NAVEGANTE */
+/* FUNDO MG - ANIMAÇÃO CONTINUA COM PARALLAX */
 body::before {
   content: "";
   position: fixed;
-  top: 10%;
-  left: 5%;
-  width: 250px;
-  height: 250px;
+  top: 15%;
+  left: 10%;
+  width: 200px;
+  height: 200px;
   background: url("assets/mg-watermark.svg") no-repeat center;
   background-size: contain;
-  opacity: 0.04;
-  pointer-events: none;
-  transform: translateY(var(--parallax-offset, 0)) rotate(-5deg);
-  transition: transform 0.1s linear;
+  opacity: 0.06;
   z-index: 0;
-  filter: blur(0.5px);
+  pointer-events: none;
+  animation: driftMG 45s linear infinite alternate;
+  filter: blur(0.3px);
 }
 
-/* SEGUNDA MARCA D'ÁGUA PARA PREENCHER MAIS ESPAÇO */
+/* SEGUNDA MARCA D'ÁGUA PARA MAIS MOVIMENTO */
 body::after {
   content: "";
   position: fixed;
-  bottom: 15%;
-  right: 5%;
-  width: 180px;
-  height: 180px;
+  bottom: 20%;
+  right: 8%;
+  width: 150px;
+  height: 150px;
   background: url("assets/mg-watermark.svg") no-repeat center;
   background-size: contain;
-  opacity: 0.03;
-  pointer-events: none;
-  transform: translateY(calc(var(--parallax-offset, 0) * -0.6)) rotate(10deg);
-  transition: transform 0.1s linear;
+  opacity: 0.04;
   z-index: 0;
+  pointer-events: none;
+  animation: driftMG2 60s linear infinite alternate;
+  transform: rotate(15deg);
+  filter: blur(0.4px);
 }
 
 /* CONTAINER */
 .container {
   width: 100%;
   max-width: 420px;
-  margin: 0 auto;
   padding: 32px 20px;
   text-align: center;
   position: relative;
   z-index: 2;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 1s ease forwards;
+  animation-delay: 1.5s;
 }
 
-/* LOGO */
+/* HEADER */
 .logo {
   width: 110px;
-  height: auto;
   margin-bottom: 16px;
+  opacity: 0;
+  transform: scale(0.9);
+  animation: fadeInScale 0.8s ease forwards;
+  animation-delay: 1.7s;
 }
 
-/* TÍTULOS */
 h1 {
   font-size: 1.6rem;
   margin: 0;
+  opacity: 0;
+  transform: translateY(10px);
+  animation: fadeInUp 0.8s ease forwards;
+  animation-delay: 1.9s;
 }
 
 p {
   color: var(--muted);
   margin: 8px 0 24px;
+  opacity: 0;
+  transform: translateY(10px);
+  animation: fadeInUp 0.8s ease forwards;
+  animation-delay: 2.1s;
 }
 
-.subtitle {
-  font-size: 0.9rem;
-}
-
-/* CTA */
+/* CTA COM ANIMAÇÃO PULSE MELHORADA */
 .cta {
   display: block;
+  position: relative;
   background: var(--primary);
-  color: #fff;
+  color: #ffffff;
+  text-decoration: none;
   padding: 16px;
   border-radius: 14px;
   font-weight: 700;
   margin-bottom: 28px;
-  text-decoration: none;
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(10px);
+  animation: fadeInUp 0.8s ease forwards;
+  animation-delay: 2.3s;
+}
+
+.cta-text {
+  position: relative;
+  z-index: 2;
+}
+
+.cta-pulse {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 100%;
+  border-radius: 14px;
+  background: var(--primary);
+  z-index: 1;
+  animation: pulseWave 2s ease-out infinite;
 }
 
 .cta:hover {
   transform: translateY(-3px);
-  box-shadow: 0 15px 40px rgba(255,122,0,0.45);
+  box-shadow: 0 15px 40px rgba(255, 122, 0, 0.45);
 }
 
-/* PULSE ANIMATION */
-@keyframes pulse {
-  0%, 100% {
-    opacity: 1;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 0.7;
-    transform: scale(0.95);
-  }
+.cta:hover .cta-pulse {
+  animation: pulseWaveFast 1.5s ease-out infinite;
 }
 
 /* LINKS */
 .links {
   display: grid;
   gap: 14px;
+  opacity: 0;
+  transform: translateY(10px);
+  animation: fadeInUp 0.8s ease forwards;
+  animation-delay: 2.5s;
 }
 
+/* BOTÕES */
 .card {
   background: var(--card);
   padding: 14px 16px;
   border-radius: 12px;
-  color: #fff;
   text-decoration: none;
+  color: #ffffff;
   font-weight: 500;
   display: flex;
   align-items: center;
   gap: 12px;
-  transition: background 0.25s ease, transform 0.25s ease;
+  transition: background 0.3s ease, transform 0.3s ease;
+  opacity: 0;
+  transform: translateY(10px);
 }
+
+.card:nth-child(1) { animation: fadeInUp 0.8s ease forwards 2.7s; }
+.card:nth-child(2) { animation: fadeInUp 0.8s ease forwards 2.9s; }
+.card:nth-child(3) { animation: fadeInUp 0.8s ease forwards 3.1s; }
 
 .card:hover {
   background: #1f2640;
   transform: translateY(-2px);
 }
 
+/* ÍCONES DOS BOTÕES */
 .card img {
   width: 20px;
   height: 20px;
+  min-width: 20px;
   object-fit: contain;
+  opacity: 0.9;
 }
 
 /* ───────── PROVA SOCIAL ───────── */
 .social-proof {
   margin-top: 40px;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 0.8s ease forwards;
+  animation-delay: 3.3s;
 }
 
 .social-proof h2 {
@@ -189,10 +210,9 @@ p {
 /* CARROSSEL */
 .logos {
   width: 100%;
-  height: 70px; /* Aumentei para acomodar logos com áreas transparentes */
+  height: 70px;
   overflow: hidden;
   position: relative;
-  margin: 0 auto;
   mask-image: linear-gradient(
     to right,
     transparent 0%,
@@ -214,43 +234,44 @@ p {
   align-items: center;
   gap: 32px;
   width: max-content;
-  height: 100%;
   animation: scroll 40s linear infinite;
 }
 
-/* AJUSTE PARA LOGOS COM ÁREAS TRANSPARENTES */
+/* LOGOS DO CARROSSEL - AJUSTADOS */
 .logos img {
-  height: 50px; /* Aumentei a altura */
-  min-width: 90px; /* Largura mínima maior */
+  height: 50px;
+  min-width: 90px;
   object-fit: contain;
   object-position: center;
-  opacity: 0.9;
+  opacity: 0.85;
   flex-shrink: 0;
-  padding: 5px 0; /* Adiciona padding interno para ajustar posição */
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  padding: 5px;
+  filter: grayscale(0.3);
+  transition: filter 0.3s ease, opacity 0.3s ease;
 }
 
-/* Remover áreas transparentes usando clip-path */
-.logos img {
-  clip-path: inset(5% 0 5% 0); /* Corta 5% do topo e 5% da base */
+.logos img:hover {
+  filter: grayscale(0);
+  opacity: 1;
 }
 
-/* PAUSE APENAS EM DESKTOP REAL */
-@media (hover: hover) and (pointer: fine) {
+/* PAUSE NO HOVER */
+@media (hover: hover) {
   .logos:hover .logos-track {
     animation-play-state: paused;
   }
 }
 
-/* META TEXT */
+/* TEXTO AUXILIAR */
 .meta {
   display: block;
-  margin-top: 16px;
-  font-size: 0.75rem;
+  margin-top: 12px;
+  font-size: 0.8rem;
   color: var(--muted);
-  opacity: 0.8;
+  opacity: 0;
+  transform: translateY(10px);
+  animation: fadeInUp 0.8s ease forwards;
+  animation-delay: 3.5s;
 }
 
 /* FOOTER */
@@ -258,22 +279,165 @@ footer {
   margin-top: 40px;
   font-size: 0.75rem;
   opacity: 0.4;
+  opacity: 0;
+  transform: translateY(10px);
+  animation: fadeInUp 0.8s ease forwards;
+  animation-delay: 3.7s;
 }
 
-/* ANIMAÇÕES */
+/* LOADER */
+.loader {
+  position: fixed;
+  inset: 0;
+  background: var(--bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  animation: loaderFade 1.2s ease forwards;
+  animation-delay: 1s;
+}
+
+.loader img {
+  width: 120px;
+  animation: loaderPulse 1.2s ease-in-out infinite;
+}
+
+/* =========================
+   KEYFRAMES - ANIMAÇÕES
+========================= */
+
+/* MARCA D'ÁGUA 1 */
+@keyframes driftMG {
+  0% { 
+    transform: translate(0, 0) rotate(0deg); 
+    opacity: 0.06;
+  }
+  25% { 
+    transform: translate(15vw, 8vh) rotate(5deg); 
+    opacity: 0.05;
+  }
+  50% { 
+    transform: translate(25vw, 12vh) rotate(10deg); 
+    opacity: 0.04;
+  }
+  75% { 
+    transform: translate(10vw, 15vh) rotate(5deg); 
+    opacity: 0.05;
+  }
+  100% { 
+    transform: translate(30vw, 5vh) rotate(0deg); 
+    opacity: 0.06;
+  }
+}
+
+/* MARCA D'ÁGUA 2 */
+@keyframes driftMG2 {
+  0% { 
+    transform: translate(0, 0) rotate(15deg); 
+    opacity: 0.04;
+  }
+  25% { 
+    transform: translate(-10vw, -5vh) rotate(20deg); 
+    opacity: 0.03;
+  }
+  50% { 
+    transform: translate(-20vw, 5vh) rotate(25deg); 
+    opacity: 0.04;
+  }
+  75% { 
+    transform: translate(-5vw, -8vh) rotate(20deg); 
+    opacity: 0.03;
+  }
+  100% { 
+    transform: translate(-25vw, 3vh) rotate(15deg); 
+    opacity: 0.04;
+  }
+}
+
+/* PULSE DO CTA (ONDA EXPANSIVA) */
+@keyframes pulseWave {
+  0% {
+    opacity: 0.8;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  50% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(1.05);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(1.1);
+  }
+}
+
+@keyframes pulseWaveFast {
+  0% {
+    opacity: 0.8;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  50% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(1.08);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(1.15);
+  }
+}
+
+/* CARROSSEL */
 @keyframes scroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+/* LOADER */
+@keyframes loaderPulse {
+  0% { 
+    transform: scale(1); 
+    opacity: 0.6;
+    filter: brightness(1);
+  }
+  50% { 
+    transform: scale(1.06); 
+    opacity: 1;
+    filter: brightness(1.2);
+  }
+  100% { 
+    transform: scale(1); 
+    opacity: 0.6;
+    filter: brightness(1);
+  }
+}
+
+@keyframes loaderFade {
+  0% { opacity: 1; }
+  70% { opacity: 1; }
+  100% { opacity: 0; visibility: hidden; }
+}
+
+/* ENTRADA DOS ELEMENTOS */
+@keyframes fadeInUp {
   from {
-    transform: translateX(0);
+    opacity: 0;
+    transform: translateY(20px);
   }
   to {
-    transform: translateX(-50%); /* Move metade da largura para criar loop */
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
-/* FADE IN (estado inicial) */
-.fade {
-  opacity: 0;
-  transform: translateY(20px);
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 /* MOBILE */
@@ -287,23 +451,45 @@ footer {
     height: 60px;
   }
   
-  .container {
-    padding: 24px 16px;
+  /* Reduzir animações das marcas d'água no mobile */
+  body::before {
+    width: 150px;
+    height: 150px;
+    animation: driftMG 60s linear infinite alternate;
   }
   
-  .social-proof {
-    margin-top: 32px;
-  }
-  
-  /* Ajustar marca d'água no mobile */
-  body::before,
   body::after {
-    opacity: 0.02;
+    width: 120px;
+    height: 120px;
+    opacity: 0.03;
   }
+  
+  /* Ajustar delays para mobile */
+  .container {
+    animation-delay: 1s;
+  }
+  
+  .logo { animation-delay: 1.2s; }
+  h1 { animation-delay: 1.4s; }
+  p { animation-delay: 1.6s; }
+  .cta { animation-delay: 1.8s; }
+  .links { animation-delay: 2s; }
+  .social-proof { animation-delay: 2.4s; }
+  .meta { animation-delay: 2.6s; }
+  footer { animation-delay: 2.8s; }
 }
 
-/* LOADER HIDDEN STATE */
-.loader.hidden {
-  opacity: 0;
-  visibility: hidden;
+/* DESKTOP GRANDE */
+@media (min-width: 1200px) {
+  body::before {
+    width: 250px;
+    height: 250px;
+    opacity: 0.05;
+  }
+  
+  body::after {
+    width: 180px;
+    height: 180px;
+    opacity: 0.035;
+  }
 }
