@@ -1,11 +1,11 @@
 // =========================
-// LOADER & INICIALIZAÇÃO
+// LOADER
 // =========================
-document.addEventListener('DOMContentLoaded', () => {
+window.addEventListener('load', () => {
+  const loader = document.querySelector('.loader');
   
-  // Remover loader após animação
+  // Garantir que o loader fique visível por pelo menos 1 segundo
   setTimeout(() => {
-    const loader = document.querySelector('.loader');
     if (loader) {
       loader.style.display = 'none';
     }
@@ -13,49 +13,11 @@ document.addEventListener('DOMContentLoaded', () => {
     // Iniciar carrossel após loader
     initCarousel();
     
-    // Adicionar efeito de parallax suave nas marcas d'água
-    initWatermarkParallax();
-    
-  }, 1200); // Tempo igual ao CSS animation-delay
-
-  // Adicionar hover effect nos cards
-  const cards = document.querySelectorAll('.card');
-  cards.forEach(card => {
-    card.addEventListener('mouseenter', () => {
-      card.style.transform = 'translateY(-2px)';
-    });
-    
-    card.addEventListener('mouseleave', () => {
-      card.style.transform = 'translateY(0)';
-    });
-  });
-
-  // Efeito especial no CTA
-  const cta = document.querySelector('.cta');
-  if (cta) {
-    cta.addEventListener('mouseenter', () => {
-      cta.style.transform = 'translateY(-3px)';
-      cta.style.boxShadow = '0 15px 40px rgba(255, 122, 0, 0.45)';
-    });
-    
-    cta.addEventListener('mouseleave', () => {
-      cta.style.transform = 'translateY(0)';
-      cta.style.boxShadow = 'none';
-    });
-    
-    // Efeito de clique
-    cta.addEventListener('mousedown', () => {
-      cta.style.transform = 'translateY(-1px) scale(0.98)';
-    });
-    
-    cta.addEventListener('mouseup', () => {
-      cta.style.transform = 'translateY(-3px)';
-    });
-  }
+  }, 1200);
 });
 
 // =========================
-// CARROSSEL DE LOGOS
+// CARROSSEL DE LOGOS SIMPLES
 // =========================
 function initCarousel() {
   const track = document.querySelector('.logos-track');
@@ -63,25 +25,10 @@ function initCarousel() {
   
   if (!track || !container) return;
   
-  // 1. Clonar logos para criar loop infinito
-  const originalImages = track.querySelectorAll('img');
-  const cloneTrack = track.cloneNode(true);
-  track.parentNode.appendChild(cloneTrack);
+  // Configurar animação CSS diretamente
+  track.style.animation = 'scroll 30s linear infinite';
   
-  // 2. Ajustar largura total
-  const totalImages = originalImages.length;
-  const gap = 32; // gap do CSS
-  const minWidth = 90; // min-width do CSS
-  const totalWidth = totalImages * (minWidth + gap);
-  track.style.width = `${totalWidth * 2}px`;
-  
-  // 3. Configurar velocidade baseada na quantidade
-  const baseDuration = 40; // segundos para 43 imagens
-  const duration = baseDuration;
-  track.style.animationDuration = `${duration}s`;
-  
-  // 4. Interação - pausa no hover/touch
-  // Desktop
+  // Pausar no hover
   container.addEventListener('mouseenter', () => {
     track.style.animationPlayState = 'paused';
   });
@@ -90,35 +37,59 @@ function initCarousel() {
     track.style.animationPlayState = 'running';
   });
   
-  // Mobile
-  let isTouching = false;
-  container.addEventListener('touchstart', (e) => {
+  // Pausar no touch (mobile)
+  container.addEventListener('touchstart', () => {
     track.style.animationPlayState = 'paused';
-    isTouching = true;
-    e.preventDefault();
-  }, { passive: false });
+  });
   
   container.addEventListener('touchend', () => {
-    isTouching = false;
     setTimeout(() => {
-      if (!isTouching) {
-        track.style.animationPlayState = 'running';
-      }
+      track.style.animationPlayState = 'running';
     }, 300);
   });
   
-  container.addEventListener('touchcancel', () => {
-    isTouching = false;
-    track.style.animationPlayState = 'running';
-  });
+  // Adicionar keyframes dinamicamente
+  addScrollKeyframes();
+}
+
+// =========================
+// ADICIONAR KEYFRAMES DINAMICAMENTE
+// =========================
+function addScrollKeyframes() {
+  // Verificar se já existe
+  if (document.querySelector('#scroll-keyframes')) return;
   
-  // 5. Otimizar imagens
-  const allLogos = document.querySelectorAll('.logos img');
-  allLogos.forEach(img => {
-    // Prevenir drag das imagens
+  const style = document.createElement('style');
+  style.id = 'scroll-keyframes';
+  
+  // Calcular porcentagem baseada no número de imagens
+  // Com 43 imagens duplicadas = 86 imagens no total
+  // A animação move 50% (metade das imagens) para criar loop
+  style.textContent = `
+    @keyframes scroll {
+      from {
+        transform: translateX(0);
+      }
+      to {
+        transform: translateX(-50%);
+      }
+    }
+  `;
+  
+  document.head.appendChild(style);
+}
+
+// =========================
+// OTIMIZAR IMAGENS DO CARROSSEL
+// =========================
+function optimizeCarouselImages() {
+  const logos = document.querySelectorAll('.logos img');
+  
+  logos.forEach(img => {
+    // Prevenir drag
     img.setAttribute('draggable', 'false');
     
-    // Ajustar clip-path baseado na proporção
+    // Ajustar clip-path se necessário
     img.onload = function() {
       adjustLogoClip(this);
     };
@@ -130,74 +101,44 @@ function initCarousel() {
 function adjustLogoClip(img) {
   const naturalRatio = img.naturalWidth / img.naturalHeight;
   
-  // Ajustar clip-path baseado na proporção da imagem
-  if (naturalRatio < 1.2) { // Imagem mais quadrada/vertical
+  // Ajustes diferentes baseados na proporção
+  if (naturalRatio < 1.2) {
     img.style.clipPath = 'inset(10% 0 10% 0)';
-  } else if (naturalRatio > 2) { // Imagem muito horizontal
+  } else if (naturalRatio > 2) {
     img.style.clipPath = 'inset(2% 0 2% 0)';
-  } else { // Proporção normal
+  } else {
     img.style.clipPath = 'inset(5% 0 5% 0)';
   }
 }
 
 // =========================
-// PARALLAX NAS MARCAS D'ÁGUA
+// INICIALIZAR TUDO
 // =========================
-function initWatermarkParallax() {
-  let ticking = false;
+document.addEventListener('DOMContentLoaded', () => {
+  // Otimizar imagens
+  optimizeCarouselImages();
   
-  window.addEventListener('scroll', () => {
-    if (!ticking) {
-      window.requestAnimationFrame(() => {
-        const scrolled = window.scrollY;
-        const speed = 0.03; // Velocidade do parallax
-        
-        // Aplicar parallax suave
-        document.body.style.setProperty('--parallax-offset', `${scrolled * speed}px`);
-        
-        // Efeito adicional nas marcas d'água
-        const watermarks = document.querySelectorAll('body::before, body::after');
-        
-        ticking = false;
-      });
-      ticking = true;
-    }
+  // Efeitos de hover simples
+  const cards = document.querySelectorAll('.card');
+  cards.forEach(card => {
+    card.addEventListener('mouseenter', () => {
+      card.style.transform = 'translateY(-2px)';
+    });
+    
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = 'translateY(0)';
+    });
   });
-}
-
-// =========================
-// DETECTAR REDIMENSIONAMENTO
-// =========================
-let resizeTimeout;
-window.addEventListener('resize', () => {
-  clearTimeout(resizeTimeout);
-  resizeTimeout = setTimeout(() => {
-    // Reajustar carrossel se necessário
-    const track = document.querySelector('.logos-track');
-    if (track) {
-      track.style.animationPlayState = 'running';
-    }
-  }, 250);
-});
-
-// =========================
-// ANIMAÇÃO DE ENTRADA OBSERVER
-// =========================
-// Adicionar fallback para browsers antigos
-const observerOptions = {
-  threshold: 0.1,
-  rootMargin: '0px 0px -50px 0px'
-};
-
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('animated');
-    }
-  });
-}, observerOptions);
-
-// Observar elementos que podem ter sido carregados depois
-document.querySelectorAll('.fade-element').forEach(el => {
-  observer.observe(el);
+  
+  // Efeito no CTA
+  const cta = document.querySelector('.cta');
+  if (cta) {
+    cta.addEventListener('mouseenter', () => {
+      cta.style.transform = 'translateY(-3px)';
+    });
+    
+    cta.addEventListener('mouseleave', () => {
+      cta.style.transform = 'translateY(0)';
+    });
+  }
 });

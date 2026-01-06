@@ -25,7 +25,7 @@ body {
   min-height: 100vh;
 }
 
-/* FUNDO MG - ANIMAÇÃO CONTINUA COM PARALLAX */
+/* FUNDO MG - ANIMAÇÃO CONTINUA */
 body::before {
   content: "";
   position: fixed;
@@ -42,7 +42,7 @@ body::before {
   filter: blur(0.3px);
 }
 
-/* SEGUNDA MARCA D'ÁGUA PARA MAIS MOVIMENTO */
+/* SEGUNDA MARCA D'ÁGUA */
 body::after {
   content: "";
   position: fixed;
@@ -102,10 +102,9 @@ p {
   animation-delay: 2.1s;
 }
 
-/* CTA COM ANIMAÇÃO PULSE MELHORADA */
+/* CTA COM PULSE CONSTANTE (COMO NO CÓDIGO ORIGINAL) */
 .cta {
   display: block;
-  position: relative;
   background: var(--primary);
   color: #ffffff;
   text-decoration: none;
@@ -114,38 +113,18 @@ p {
   font-weight: 700;
   margin-bottom: 28px;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  overflow: hidden;
   opacity: 0;
   transform: translateY(10px);
-  animation: fadeInUp 0.8s ease forwards;
-  animation-delay: 2.3s;
-}
-
-.cta-text {
+  animation: fadeInUp 0.8s ease forwards, pulse 2s infinite;
+  animation-delay: 2.3s, 3.3s; /* pulse só começa depois do fadeIn */
   position: relative;
-  z-index: 2;
-}
-
-.cta-pulse {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 100%;
-  height: 100%;
-  border-radius: 14px;
-  background: var(--primary);
+  overflow: hidden;
   z-index: 1;
-  animation: pulseWave 2s ease-out infinite;
 }
 
 .cta:hover {
   transform: translateY(-3px);
   box-shadow: 0 15px 40px rgba(255, 122, 0, 0.45);
-}
-
-.cta:hover .cta-pulse {
-  animation: pulseWaveFast 1.5s ease-out infinite;
 }
 
 /* LINKS */
@@ -207,7 +186,7 @@ p {
   color: var(--muted);
 }
 
-/* CARROSSEL */
+/* CARROSSEL - AGORA COM MÁSCARA PARA ESCONDER EXTREMIDADES */
 .logos {
   width: 100%;
   height: 70px;
@@ -216,15 +195,15 @@ p {
   mask-image: linear-gradient(
     to right,
     transparent 0%,
-    black 10%,
-    black 90%,
+    black 15%,
+    black 85%,
     transparent 100%
   );
   -webkit-mask-image: linear-gradient(
     to right,
     transparent 0%,
-    black 10%,
-    black 90%,
+    black 15%,
+    black 85%,
     transparent 100%
   );
 }
@@ -233,11 +212,10 @@ p {
   display: flex;
   align-items: center;
   gap: 32px;
-  width: max-content;
-  animation: scroll 40s linear infinite;
+  height: 100%;
 }
 
-/* LOGOS DO CARROSSEL - AJUSTADOS */
+/* LOGOS DO CARROSSEL - AGORA COM UMA CÓPIA APENAS NO HTML */
 .logos img {
   height: 50px;
   min-width: 90px;
@@ -253,13 +231,6 @@ p {
 .logos img:hover {
   filter: grayscale(0);
   opacity: 1;
-}
-
-/* PAUSE NO HOVER */
-@media (hover: hover) {
-  .logos:hover .logos-track {
-    animation-play-state: paused;
-  }
 }
 
 /* TEXTO AUXILIAR */
@@ -355,41 +326,17 @@ footer {
   }
 }
 
-/* PULSE DO CTA (ONDA EXPANSIVA) */
-@keyframes pulseWave {
-  0% {
-    opacity: 0.8;
-    transform: translate(-50%, -50%) scale(1);
+/* PULSE DO CTA (EXATAMENTE COMO NO CÓDIGO ORIGINAL) */
+@keyframes pulse {
+  0% { 
+    box-shadow: 0 0 0 0 rgba(255, 122, 0, 0.7); 
   }
-  50% {
-    opacity: 0;
-    transform: translate(-50%, -50%) scale(1.05);
+  70% { 
+    box-shadow: 0 0 0 15px rgba(255, 122, 0, 0); 
   }
-  100% {
-    opacity: 0;
-    transform: translate(-50%, -50%) scale(1.1);
+  100% { 
+    box-shadow: 0 0 0 0 rgba(255, 122, 0, 0); 
   }
-}
-
-@keyframes pulseWaveFast {
-  0% {
-    opacity: 0.8;
-    transform: translate(-50%, -50%) scale(1);
-  }
-  50% {
-    opacity: 0;
-    transform: translate(-50%, -50%) scale(1.08);
-  }
-  100% {
-    opacity: 0;
-    transform: translate(-50%, -50%) scale(1.15);
-  }
-}
-
-/* CARROSSEL */
-@keyframes scroll {
-  from { transform: translateX(0); }
-  to { transform: translateX(-50%); }
 }
 
 /* LOADER */
@@ -397,17 +344,14 @@ footer {
   0% { 
     transform: scale(1); 
     opacity: 0.6;
-    filter: brightness(1);
   }
   50% { 
     transform: scale(1.06); 
     opacity: 1;
-    filter: brightness(1.2);
   }
   100% { 
     transform: scale(1); 
     opacity: 0.6;
-    filter: brightness(1);
   }
 }
 
@@ -449,6 +393,33 @@ footer {
   
   .logos {
     height: 60px;
+    mask-image: linear-gradient(
+      to right,
+      transparent 0%,
+      black 10%,
+      black 90%,
+      transparent 100%
+    );
+    -webkit-mask-image: linear-gradient(
+      to right,
+      transparent 0%,
+      black 10%,
+      black 90%,
+      transparent 100%
+    );
+  }
+  
+  /* Ajustar pulse para mobile */
+  @keyframes pulse {
+    0% { 
+      box-shadow: 0 0 0 0 rgba(255, 122, 0, 0.7); 
+    }
+    70% { 
+      box-shadow: 0 0 0 12px rgba(255, 122, 0, 0); 
+    }
+    100% { 
+      box-shadow: 0 0 0 0 rgba(255, 122, 0, 0); 
+    }
   }
   
   /* Reduzir animações das marcas d'água no mobile */
